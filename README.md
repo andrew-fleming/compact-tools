@@ -1,4 +1,4 @@
-[![Generic badge](https://img.shields.io/badge/Compact%20Compiler-0.25.0-1abc9c.svg)](https://docs.midnight.network/relnotes/compact)
+[![Generic badge](https://img.shields.io/badge/Compact%20Compiler-0.26.0-1abc9c.svg)](https://docs.midnight.network/relnotes/compact/minokawa-0-18-26-0)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 # OpenZeppelin Compact Tools
@@ -35,7 +35,7 @@ node compact-tools/packages/compact/dist/runBuilder.js --help
 
 ## Requirements
 
-- Node.js >= 20 (root and `packages/compact`), >= 18 for `packages/simulator`
+- Node.js >= 20 (root and `packages/compact`), >= 22 for `packages/simulator`
 - Yarn 4 (Berry)
 - Turbo
 - Optional: Midnight Compact toolchain installed and available in `PATH`
@@ -45,8 +45,8 @@ Confirm your Compact toolchain:
 ```bash
 $ compact compile --version
 
-Compactc version: 0.25.0
-0.25.0
+Compactc version: 0.26.0
+0.26.0
 ```
 
 ## Getting started
