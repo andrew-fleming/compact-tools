@@ -29,8 +29,5 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup
 
-      - name: Run type checks
-        run: turbo types
-
       - name: Run tests
-        run: turbo test
+        run: yarn test
