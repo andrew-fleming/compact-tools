@@ -1,4 +1,7 @@
-import type { WitnessContext } from '@midnight-ntwrk/compact-runtime';
+import type {
+  EncodedZswapLocalState,
+  WitnessContext,
+} from '@midnight-ntwrk/compact-runtime';
 import { sampleContractAddress } from '@midnight-ntwrk/zswap';
 import { CircuitContextManager } from '../core/CircuitContextManager.js';
 import { ContractSimulator } from '../core/ContractSimulator.js';
@@ -172,6 +175,20 @@ export function createSimulator<P, L, W, TArgs extends readonly any[]>(
         privateState: circuitCtx.currentPrivateState,
         contractAddress: circuitCtx.transactionContext.address,
       };
+    }
+
+    /**
+     * Gets the current Zswap local state
+     * Gets the current Zswap local state containing coin inputs/outputs and transaction data.
+     *
+     * @returns The encoded Zswap state including:
+     *   - `coinPublicKey`: The public key associated with this transaction
+     *   - `currentIndex`: The current index in the Zswap state
+     *   - `inputs`: Array of consumed coin inputs (if any)
+     *   - `outputs`: Array of created coin outputs (if any)
+     */
+    public getZswapState(): EncodedZswapLocalState {
+      return this.circuitContext.currentZswapLocalState;
     }
   };
 }
