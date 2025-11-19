@@ -184,8 +184,8 @@ export function createSimulator<P, L, W, TArgs extends readonly any[]>(
      * @returns The encoded Zswap state including:
      *   - `coinPublicKey`: The public key associated with this transaction
      *   - `currentIndex`: The current index in the Zswap state
-     *   - `inputs`: Array of consumed coin inputs (if any)
-     *   - `outputs`: Array of created coin outputs (if any)
+     *   - `inputs`: Array of consumed coin inputs
+     *   - `outputs`: Array of created coin outputs
      */
     public getZswapState(): EncodedZswapLocalState {
       return this.circuitContext.currentZswapLocalState;
