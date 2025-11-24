@@ -1,0 +1,82 @@
+name: Release Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Which package to release'
+        required: true
+        type: choice
+        options:
+          - compact-tools-cli
+          - compact-tools-simulator
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write  # Required to push commits and tags
+  id-token: write  # Required for npm provenance
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  release:
+    name: Release ${{ inputs.package }}
+    runs-on: ubuntu-24.04
+    # environment: compact-npm-prod  # Requires approval
+
+    env:
+      COMPACT_INSTALLER_URL: ${{ vars.COMPACT_INSTALLER_URL }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+
+      - name: Run tests for package
+        run: yarn test --filter=@openzeppelin/${{ inputs.package }}
+
+      - name: Build package
+        run: yarn build --filter=@openzeppelin/${{ inputs.package }}
+
+      - name: Bump version
+        id: version
+        run: |
+          cd packages/${{ inputs.package }}
+          yarn version ${{ inputs.version_bump }} --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "### Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Package: ${{ inputs.package }}" >> $GITHUB_STEP_SUMMARY
+          echo "- New version: $NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "- Bump type: ${{ inputs.version_bump }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Verify package contents
+        run: |
+          cd packages/${{ inputs.package }}
+          yarn pack --dry-run
+
+      - name: Commit and tag version bump
+        uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842  # v5.0.1
+        with:
+          commit_message: "Release ${{ inputs.package }} v${{ steps.version.outputs.new }}"
+          file_pattern: "packages/${{ inputs.package }}/package.json"
+          tagging_message: "${{ inputs.package }}/v${{ steps.version.outputs.new }}"
+
+      - name: Publish to npm
+        run: |
+          cd packages/${{ inputs.package }}
+          yarn npm publish --access public --provenance
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
