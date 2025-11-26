@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2 # Recommended by turbo team
 
@@ -27,7 +27,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Format & Lint
-        run: yarn fmt-and-lint:ci
+        run: yarn lint:ci
 
       - name: Run type checks
         run: yarn types
