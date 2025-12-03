@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Which package to release'
+        description: "Which package to release"
         required: true
         type: choice
         options:
           - compact-tools-cli
           - compact-tools-simulator
       version_bump:
-        description: 'Version bump type'
+        description: "Version bump type"
         required: true
         type: choice
         options:
@@ -20,7 +20,7 @@ on:
           - major
 
 permissions:
-  contents: write  # Required to push commits and tags
+  contents: write # Required to push commits and tags
 
 env:
   TURBO_TELEMETRY_DISABLED: 1
@@ -29,14 +29,14 @@ jobs:
   release:
     name: Release ${{ inputs.package }}
     runs-on: ubuntu-24.04
-    environment: compact-npm-prod  # Requires approval
+    environment: compact-npm-prod # Requires approval
 
     env:
       COMPACT_INSTALLER_URL: ${{ vars.COMPACT_INSTALLER_URL }}
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -79,7 +79,7 @@ jobs:
           yarn pack --dry-run
 
       - name: Commit and tag version bump
-        uses: stefanzweifel/git-auto-commit-action@28e16e81777b558cc906c8750092100bbb34c5e3  # v7.0.0
+        uses: stefanzweifel/git-auto-commit-action@28e16e81777b558cc906c8750092100bbb34c5e3 # v7.0.0
         with:
           commit_message: "chore: release ${{ inputs.package }} v${{ steps.version.outputs.new }}"
           file_pattern: "packages/${{ steps.pkg.outputs.dir }}/package.json"
