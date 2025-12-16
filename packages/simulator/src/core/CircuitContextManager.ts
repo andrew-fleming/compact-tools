@@ -4,6 +4,7 @@ import {
   type ConstructorContext,
   type ContractAddress,
   type ContractState,
+  CostModel,
   createConstructorContext,
   type EncodedZswapLocalState,
   QueryContext,
@@ -55,11 +56,13 @@ export class CircuitContextManager<P> {
     this.context = {
       currentPrivateState,
       currentZswapLocalState,
-      originalState: currentContractState,
-      transactionContext: new QueryContext(
-        currentContractState.data,
-        contractAddress,
-      ),
+      currentQueryContext: new QueryContext(currentContractState.data, contractAddress),
+      costModel: CostModel
+      //originalState: currentContractState,
+      //transactionContext: new QueryContext(
+      //  currentContractState.data,
+      //  contractAddress,
+      //),
     };
   }
 

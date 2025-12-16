@@ -31,7 +31,10 @@ export interface IContractSimulator<P, L> {
   getPrivateState(): P;
 
   /**
-   * Returns the original contract state.
+   * Returns the current contract state.
+   * 
+   * Note: In the new compact-runtime, this returns the state directly 
+   * from currentQueryContext.state (which is of type ContractState)
    */
   getContractState(): ContractState;
 }

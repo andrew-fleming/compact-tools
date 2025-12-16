@@ -3,6 +3,7 @@ import {
   type CoinPublicKey,
   type ContractAddress,
   type ContractState,
+  CostModel,
   emptyZswapLocalState,
   QueryContext,
 } from '@midnight-ntwrk/compact-runtime';
@@ -27,10 +28,10 @@ export function useCircuitContext<P>(
   contractAddress: ContractAddress,
 ): CircuitContext<P> {
   return {
-    originalState: contractState,
     currentPrivateState: privateState,
-    transactionContext: new QueryContext(contractState.data, contractAddress),
+    currentQueryContext: new QueryContext(contractState.data, contractAddress),
     currentZswapLocalState: emptyZswapLocalState(sender),
+    costModel: CostModel,
   };
 }
 
@@ -48,13 +49,13 @@ export function useCircuitContextSender<
   C extends IContractSimulator<P, L>,
 >(contract: C, sender: CoinPublicKey): CircuitContext<P> {
   const currentPrivateState = contract.getPrivateState();
-  const originalState = contract.getContractState();
+  const contractState = contract.getContractState();
   const contractAddress = contract.contractAddress;
 
   return {
-    originalState,
     currentPrivateState,
-    transactionContext: new QueryContext(originalState.data, contractAddress),
+    currentQueryContext: new QueryContext(contractState.data, contractAddress),
     currentZswapLocalState: emptyZswapLocalState(sender),
+    costModel: CostModel,
   };
 }

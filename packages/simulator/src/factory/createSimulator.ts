@@ -65,7 +65,7 @@ export function createSimulator<
         ...processedArgs,
       );
 
-      this.contractAddress = this.circuitContext.transactionContext.address;
+      this.contractAddress = this.circuitContext.currentQueryContext.address;
     }
 
     public _pureCircuitProxy?: ContextlessCircuits<
@@ -143,7 +143,7 @@ export function createSimulator<
      */
     getPublicState(): L {
       return config.ledgerExtractor(
-        this.circuitContext.transactionContext.state,
+        this.circuitContext.currentQueryContext.state.state,
       );
     }
 
@@ -191,7 +191,7 @@ export function createSimulator<
       return {
         ledger: this.getPublicState(),
         privateState: circuitCtx.currentPrivateState,
-        contractAddress: circuitCtx.transactionContext.address,
+        contractAddress: circuitCtx.currentQueryContext.address,
       };
     }
   };

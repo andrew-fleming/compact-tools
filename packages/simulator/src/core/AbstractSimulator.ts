@@ -84,7 +84,8 @@ export abstract class AbstractSimulator<P, L>
    * @returns The current contract state from the blockchain
    */
   public getContractState(): ContractState {
-    return this.circuitContext.originalState;
+    // FIXED: Access state directly from QueryContext
+    return this.circuitContext.currentQueryContext.state;
   }
 
   /**
