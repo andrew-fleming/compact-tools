@@ -22,7 +22,7 @@ const TEST_COMPACT_VERSION = process.env.TEST_COMPACT_VERSION;
 if (!TEST_COMPACT_VERSION) {
   throw new Error(
     'TEST_COMPACT_VERSION environment variable is required.\n' +
-    'Example: TEST_COMPACT_VERSION=0.27.0-rc.1 yarn test'
+      'Example: TEST_COMPACT_VERSION=0.27.0-rc.1 yarn test',
   );
 }
 
