@@ -53,16 +53,15 @@ export class CircuitContextManager<P> {
       currentZswapLocalState,
     } = contract.initialState(initCtx, ...contractArgs);
 
+    // Extract ChargedState from the compiler-generated ContractState
+    // The 0.27.0-rc.1 compiler returns`ContractState.data` aka ChargedState
+    const chargedState = currentContractState.data;
+
     this.context = {
       currentPrivateState,
       currentZswapLocalState,
-      currentQueryContext: new QueryContext(currentContractState.data, contractAddress),
-      costModel: CostModel
-      //originalState: currentContractState,
-      //transactionContext: new QueryContext(
-      //  currentContractState.data,
-      //  contractAddress,
-      //),
+      currentQueryContext: new QueryContext(chargedState, contractAddress),
+      costModel: CostModel.initialCostModel(),
     };
   }
 
