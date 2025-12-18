@@ -1,5 +1,5 @@
 import type { WitnessContext } from '@midnight-ntwrk/compact-runtime';
-import { sampleContractAddress } from '@midnight-ntwrk/zswap';
+import { dummyContractAddress } from '@midnight-ntwrk/compact-runtime';
 import { CircuitContextManager } from '../core/CircuitContextManager.js';
 import { ContractSimulator } from '../core/ContractSimulator.js';
 import type { IMinimalContract } from '../types/Contract.js';
@@ -49,7 +49,7 @@ export function createSimulator<
         privateState = config.defaultPrivateState(),
         witnesses = config.witnessesFactory(),
         coinPK = '0'.repeat(64),
-        contractAddress = sampleContractAddress(),
+        contractAddress = dummyContractAddress(),
       } = options;
 
       this._witnesses = witnesses;
