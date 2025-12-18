@@ -1,6 +1,6 @@
 import type {
   CircuitContext,
-  ContractState,
+  StateValue,
 } from '@midnight-ntwrk/compact-runtime';
 
 /**
@@ -32,9 +32,6 @@ export interface IContractSimulator<P, L> {
 
   /**
    * Returns the current contract state.
-   * 
-   * Note: In the new compact-runtime, this returns the state directly 
-   * from currentQueryContext.state (which is of type ContractState)
    */
-  getContractState(): ContractState;
+  getContractState(): StateValue;
 }
